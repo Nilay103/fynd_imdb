@@ -1,11 +1,13 @@
 import uuid
-from authentication import authenticate
-from models import Movie
+
 from sanic import views, response
 from sanic.exceptions import NotFound
 
+from authentication import authenticate
+from models import Movie
 
-class FooBar(views.HTTPMethodView):
+
+class MovieView(views.HTTPMethodView):
     async def get(self, request):
         movies = await Movie.find(as_raw=True)
         return response.json(movies.objects)
@@ -39,7 +41,7 @@ class FooBar(views.HTTPMethodView):
             return response.json(existing_movie)
 
         raise NotFound(f"movie {id} not found")
-    
+
     @authenticate()
     async def delete(self, request):
         movie = request.json

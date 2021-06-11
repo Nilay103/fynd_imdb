@@ -1,11 +1,12 @@
-from datetime import datetime, timedelta
 import uuid
+from datetime import datetime, timedelta
+
 import jwt
+from passlib.handlers.sha2_crypt import sha256_crypt
+from sanic import response
 
 from constants import SECRET_KEY
 from models import User
-from passlib.handlers.sha2_crypt import sha256_crypt
-from sanic import response
 
 
 async def signup(request):

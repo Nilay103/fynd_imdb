@@ -1,8 +1,9 @@
-cryptography
-dnspython
-pymongo~=3.11.4
+cryptography=3.4.7
+dnspython=2.1.0
 passlib~=1.7.4
-sanic~=21.3.4
-sanic-motor
-sanic-testing
+pymongo~=3.11.4
 PyJWT~=2.0.0
+sanic~=21.3.4
+sanic-motor~=0.6.0
+sanic-routing~=0.6.2
+sanic-testing~=0.4.0

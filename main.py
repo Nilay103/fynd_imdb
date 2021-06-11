@@ -1,9 +1,9 @@
-from constants import MONGODB_URL, SECRET_KEY, DEBUG
-from login import signup, login
 from sanic import Sanic
 from sanic_motor import BaseModel
-from views import FooBar
 
+from constants import MONGODB_URL, SECRET_KEY, DEBUG
+from login import signup, login
+from views import MovieView
 
 app = Sanic(__name__)
 BaseModel.init_app(app)
@@ -18,15 +18,13 @@ settings = dict(
 app.config.update(settings)
 
 # apply routing to app
-app.add_route(FooBar.as_view(), "/movies")
+app.add_route(MovieView.as_view(), "/movies")
 app.add_route(login, '/login', methods=["POST"])
 app.add_route(signup, '/signup', methods=["POST"])
-
 
 if __name__ == "__main__":
     # initialize the app by run command and defining params.
     app.run(host="127.0.0.1", port=8000, debug=DEBUG)
-
 
 # FOR CRUD API
 

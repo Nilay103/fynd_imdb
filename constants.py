@@ -1,7 +1,6 @@
 import os
 from configparser import RawConfigParser
 
-
 # fetch base dir path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 

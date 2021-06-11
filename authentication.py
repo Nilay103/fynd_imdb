@@ -1,7 +1,8 @@
-import jwt
 from functools import wraps
 
+import jwt
 from sanic import response
+
 from constants import SECRET_KEY
 
 
@@ -22,5 +23,7 @@ def authenticate():
             except:
                 return response.json({'data': 'Invalid token.'}, status=412)
             return await f(request, *args, **kwargs)
+
         return decorated_function
+
     return decorator
