@@ -1,27 +1,37 @@
 import uuid
-
-from sanic import views, response
-from sanic.exceptions import NotFound
-
 from authentication import authenticate
 from models import Movie
+from sanic import views, response
+from sanic.exceptions import NotFound
 
 
 class MovieView(views.HTTPMethodView):
     async def get(self, request):
-        movies = await Movie.find(as_raw=True)
-        return response.json(movies.objects)
+        filter_params = {}
+        for filter_key, value in request.args.items():
+            filter_params[filter_key] = {"$regex": "/.*" + value[0] + ".*/"}
+        movies = await Movie.find(
+            {"name": "nilay"},
+            as_raw=True
+        )
+        return response.json({
+            'count': len(movies.objects),
+            'data': movies.objects,
+        }, status=201)
 
     @authenticate()
     async def post(self, request):
         movie = request.json
         movie["_id"] = uuid.uuid4().hex
 
-        new_movie = await Movie.insert_one(movie)
+        new_movie = await Movie.insert_one(movie) # for bulk create select insert_many
         movie = await Movie.find_one(
             {"_id": new_movie.inserted_id}, as_raw=True
         )
-        return response.json(movie)
+        return response.json({
+            'data': movie,
+            'count': 1,
+        }, status=201)
 
     @authenticate()
     async def put(self, request):
@@ -41,7 +51,7 @@ class MovieView(views.HTTPMethodView):
             return response.json(existing_movie)
 
         raise NotFound(f"movie {id} not found")
-
+    
     @authenticate()
     async def delete(self, request):
         movie = request.json
