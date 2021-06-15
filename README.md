@@ -3,7 +3,7 @@
 In this repo I've tried to implement a simple CRUD API in python sanic lightweight framework.
 To run this project: 
 
-  1.Git clone repo
+  1. Git clone repo
   2. create a virtual environment.
   3. activate virtual env.
   4. pip install -r requirements.txt
